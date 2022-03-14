@@ -1,8 +1,10 @@
-package shvyn22.flexingnotes;
+package shvyn22.flexingnotes.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import shvyn22.flexingnotes.R;
 
 public class MainActivity extends AppCompatActivity {
 

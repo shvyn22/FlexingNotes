@@ -64,4 +64,7 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // GSON
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }

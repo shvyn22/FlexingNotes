@@ -25,6 +25,9 @@ buildscript {
         // Dagger
         daggerVersion = "2.40.5"
 
+        // GSON
+        gsonVersion = "2.9.0"
+
         // Gradle
         gradleVersion = "7.1.1"
     }
