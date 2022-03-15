@@ -1,6 +1,10 @@
 package shvyn22.flexingnotes.presentation.notes;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,5 +20,23 @@ public class NotesViewModel extends ViewModel {
         LocalRepository<Note> repo
     ) {
         this.repo = repo;
+    }
+
+    public LiveData<List<Note>> getNotes() {
+        MutableLiveData<List<Note>> notes = new MutableLiveData<>();
+
+        repo
+            .getAll()
+            .subscribe(notes::postValue);
+
+        return notes;
+    }
+
+    public void deleteNote(int id) {
+        repo.delete(id);
+    }
+
+    public void deleteAll() {
+        repo.deleteAll();
     }
 }

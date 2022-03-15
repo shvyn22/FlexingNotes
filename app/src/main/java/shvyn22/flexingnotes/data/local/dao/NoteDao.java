@@ -16,7 +16,7 @@ import shvyn22.flexingnotes.data.local.model.Note;
 @Dao
 public interface NoteDao {
 
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM Note ORDER BY id DESC")
     Observable<List<Note>> getNotes();
 
     @Query("SELECT * FROM Note WHERE id = :id")
@@ -24,9 +24,6 @@ public interface NoteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertNote(Note note);
-
-    @Update
-    Completable updateNote(Note note);
 
     @Query("DELETE FROM Note WHERE id = :id")
     Completable deleteNote(int id);

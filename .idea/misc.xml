@@ -6,6 +6,9 @@
         <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/layout/fragment_add_edit.xml" value="0.25416666666666665" />
         <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/layout/fragment_notes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/layout/item_note.xml" value="0.25025641025641027" />
+        <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/layout/item_todo.xml" value="0.25416666666666665" />
+        <entry key="..\:/Ya/codim/android/androidapps/Samples/FlexingNotes/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

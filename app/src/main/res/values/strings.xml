@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">FlexingNotes</string>
+
+    <string name="nav_notes">Notes</string>
+    <string name="nav_details">Note details</string>
+
+    <string name="text_todos_count">%d/%d</string>
+    <string name="text_add_todo">Add todo</string>
+    <string name="text_delete_all">Delete all</string>
+
+    <string name="text_hint_title">Title</string>
+    <string name="text_hint_text">Text</string>
+    <string name="text_hint_todo">Todo…</string>
+
+    <string name="text_accessibility_add">Add note</string>
 </resources>

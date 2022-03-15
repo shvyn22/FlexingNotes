@@ -13,8 +13,6 @@ public interface LocalRepository<T> {
 
     void insert(T item);
 
-    void update(T item);
-
     void delete(int id);
 
     void deleteAll();

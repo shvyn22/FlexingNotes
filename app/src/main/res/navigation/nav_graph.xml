@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="@string/nav_notes"
     app:startDestination="@id/notesFragment">
 
     <fragment
         android:id="@+id/notesFragment"
         android:name="shvyn22.flexingnotes.presentation.notes.NotesFragment"
-        android:label="fragment_notes"
-        tools:layout="@layout/fragment_notes" >
+        android:label="@string/nav_notes"
+        tools:layout="@layout/fragment_notes">
         <action
             android:id="@+id/action_notesFragment_to_addEditFragment"
             app:destination="@id/addEditFragment" />
@@ -17,8 +18,8 @@
     <fragment
         android:id="@+id/addEditFragment"
         android:name="shvyn22.flexingnotes.presentation.addedit.AddEditFragment"
-        android:label="fragment_add_edit"
-        tools:layout="@layout/fragment_add_edit" >
+        android:label="@string/nav_details"
+        tools:layout="@layout/fragment_add_edit">
         <argument
             android:name="id"
             app:argType="integer" />

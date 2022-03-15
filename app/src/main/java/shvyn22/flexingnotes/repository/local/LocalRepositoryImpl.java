@@ -34,13 +34,6 @@ public class LocalRepositoryImpl implements LocalRepository<Note> {
     }
 
     @Override
-    public void update(Note item) {
-        dao.updateNote(item)
-            .subscribeOn(Schedulers.io())
-            .subscribe();
-    }
-
-    @Override
     public void delete(int id) {
         dao.deleteNote(id)
             .subscribeOn(Schedulers.io())
