@@ -2,17 +2,21 @@ package shvyn22.flexingnotes.presentation.addedit;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
@@ -107,13 +111,35 @@ public class AddEditFragment extends Fragment {
 
     private void subscribeObservers() {
         viewModel.getTodos()
-            .observe(getViewLifecycleOwner(), (todos) -> adapter.submitList(todos));
+            .observe(getViewLifecycleOwner(), (todos) -> {
+                Log.d("DEBUG_TAG", todos.toString());
+                adapter.updateAndNotify(todos);
+            });
     }
 
     private void saveNote() {
-        note.title = binding.etTitle.getText().toString();
-        note.text = binding.etText.getText().toString();
-        viewModel.insertNote(note);
+        String title = binding.etTitle.getText().toString();
+        String text = binding.etText.getText().toString();
+        if (!title.equals("") || !text.equals("")) {
+            note.title = title;
+            note.text = text;
+            viewModel.insertNote(note);
+            showSnackbar(R.string.text_note_saved);
+        } else {
+            showSnackbar(R.string.text_note_not_saved);
+        }
         Navigation.findNavController(binding.getRoot()).navigateUp();
+    }
+
+    private void showSnackbar(@StringRes int msg) {
+        Snackbar
+            .make(requireView(), msg, Snackbar.LENGTH_SHORT)
+            .show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 }

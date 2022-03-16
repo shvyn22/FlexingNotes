@@ -6,18 +6,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 import shvyn22.flexingnotes.data.local.model.Todo;
 import shvyn22.flexingnotes.databinding.ItemTodoBinding;
 
-public class TodoAdapter extends ListAdapter<Todo, TodoAdapter.TodoViewHolder> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
 
-    protected TodoAdapter() {
-        super(TodoAdapter.DIFF_UTIL);
-    }
+    private final ArrayList<Todo> todos = new ArrayList<>();
 
     @NonNull
     @Override
@@ -31,7 +29,28 @@ public class TodoAdapter extends ListAdapter<Todo, TodoAdapter.TodoViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(todos.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return todos.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void updateAndNotify(ArrayList<Todo> todos) {
+        this.todos.clear();
+        this.todos.addAll(todos);
+        notifyDataSetChanged();
     }
 
     static class TodoViewHolder extends RecyclerView.ViewHolder {
@@ -62,20 +81,9 @@ public class TodoAdapter extends ListAdapter<Todo, TodoAdapter.TodoViewHolder> {
                 }
 
                 @Override
-                public void afterTextChanged(Editable editable) { }
+                public void afterTextChanged(Editable editable) {
+                }
             });
         }
     }
-
-    public static final DiffUtil.ItemCallback<Todo> DIFF_UTIL = new DiffUtil.ItemCallback<Todo>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Todo oldItem, @NonNull Todo newItem) {
-            return oldItem.text.equals(newItem.text);
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Todo oldItem, @NonNull Todo newItem) {
-            return oldItem.text.equals(newItem.text) && oldItem.isCompleted == newItem.isCompleted;
-        }
-    };
 }

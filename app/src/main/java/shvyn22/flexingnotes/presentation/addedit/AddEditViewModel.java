@@ -1,7 +1,5 @@
 package shvyn22.flexingnotes.presentation.addedit;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -26,6 +24,7 @@ public class AddEditViewModel extends ViewModel {
         this.repo = repo;
     }
 
+    private ArrayList<Todo> _todos = new ArrayList<>();
     private final MutableLiveData<ArrayList<Todo>> todos = new MutableLiveData<>();
 
     public LiveData<ArrayList<Todo>> getTodos() {
@@ -37,32 +36,28 @@ public class AddEditViewModel extends ViewModel {
 
         if (id == null || id == -1) {
             note.postValue(new Note());
-            todos.postValue(new ArrayList<>());
         } else {
             repo
                 .getItem(id)
                 .subscribeOn(Schedulers.io())
                 .subscribe(it -> {
                     note.postValue(it);
-                    todos.postValue(it.todos);
+                    _todos = it.todos;
                 });
         }
 
+        todos.setValue(_todos);
         return note;
     }
 
     public void addTodo() {
-        if (todos.getValue() != null) {
-            todos.getValue().add(new Todo());
-            todos.setValue(todos.getValue());
-        }
+        _todos.add(new Todo());
+        todos.setValue(new ArrayList<>(_todos));
     }
 
     public void deleteTodo(int pos) {
-        if (todos.getValue() != null) {
-            todos.getValue().remove(pos);
-            todos.setValue(todos.getValue());
-        }
+        _todos.remove(pos);
+        todos.setValue(new ArrayList<>(_todos));
     }
 
     public void insertNote(Note note) {

@@ -109,4 +109,10 @@ public class NotesFragment extends Fragment {
             viewModel.deleteAll();
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

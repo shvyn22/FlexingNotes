@@ -8,6 +8,9 @@
     <string name="text_add_todo">Add todo</string>
     <string name="text_delete_all">Delete all</string>
 
+    <string name="text_note_saved">Note was saved</string>
+    <string name="text_note_not_saved">Note was not saved</string>
+
     <string name="text_hint_title">Title</string>
     <string name="text_hint_text">Text</string>
     <string name="text_hint_todo">Todo…</string>

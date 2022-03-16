@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import shvyn22.flexingnotes.data.local.model.Note;
 import shvyn22.flexingnotes.repository.local.LocalRepository;
 
@@ -27,6 +28,7 @@ public class NotesViewModel extends ViewModel {
 
         repo
             .getAll()
+            .subscribeOn(Schedulers.io())
             .subscribe(notes::postValue);
 
         return notes;
