@@ -4,64 +4,82 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import shvyn22.flexingnotes.data.local.model.Note;
 import shvyn22.flexingnotes.data.local.model.Todo;
-import shvyn22.flexingnotes.repository.local.LocalRepository;
+import shvyn22.flexingnotes.repository.local.note.NoteRepository;
+import shvyn22.flexingnotes.repository.local.todo.TodoRepository;
 
 public class AddEditViewModel extends ViewModel {
 
-    private final LocalRepository<Note> repo;
+    private final NoteRepository noteRepo;
+    private final TodoRepository todoRepo;
 
     @Inject
     public AddEditViewModel(
-        LocalRepository<Note> repo
+        NoteRepository noteRepo,
+        TodoRepository todoRepo
     ) {
-        this.repo = repo;
+        this.noteRepo = noteRepo;
+        this.todoRepo = todoRepo;
     }
 
-    private ArrayList<Todo> _todos = new ArrayList<>();
-    private final MutableLiveData<ArrayList<Todo>> todos = new MutableLiveData<>();
-
-    public LiveData<ArrayList<Todo>> getTodos() {
-        return todos;
-    }
-
-    public LiveData<Note> getNote(Integer id) {
+    public LiveData<Note> getNote(Long id) {
         MutableLiveData<Note> note = new MutableLiveData<>();
 
         if (id == null || id == -1) {
-            note.postValue(new Note());
-        } else {
-            repo
-                .getItem(id)
+            noteRepo
+                .insertNote(new Note())
+                .doOnSuccess(insertedId ->
+                    noteRepo
+                        .getNote(insertedId)
+                        .subscribe(note::postValue)
+                )
                 .subscribeOn(Schedulers.io())
-                .subscribe(it -> {
-                    note.postValue(it);
-                    _todos = it.todos;
-                });
+                .subscribe();
+        } else {
+            noteRepo
+                .getNote(id)
+                .subscribeOn(Schedulers.io())
+                .subscribe(note::postValue);
         }
 
-        todos.setValue(_todos);
         return note;
     }
 
-    public void addTodo() {
-        _todos.add(new Todo());
-        todos.setValue(new ArrayList<>(_todos));
+    public LiveData<List<Todo>> getTodos(Long noteId) {
+        MutableLiveData<List<Todo>> todos = new MutableLiveData<>();
+
+        todoRepo
+            .getTodos(noteId)
+            .subscribeOn(Schedulers.io())
+            .subscribe(todos::postValue);
+
+        return todos;
     }
 
-    public void deleteTodo(int pos) {
-        _todos.remove(pos);
-        todos.setValue(new ArrayList<>(_todos));
+    public void insertTodo(Todo todo) {
+        todoRepo.insertTodo(todo);
     }
 
-    public void insertNote(Note note) {
-        note.todos = todos.getValue();
-        repo.insert(note);
+    public void updateTodo(Todo todo) {
+        todoRepo.updateTodo(todo);
+    }
+
+    public void deleteTodo(long id) {
+        todoRepo.deleteTodo(id);
+    }
+
+    public void updateNote(Note note) {
+        noteRepo.updateNote(note);
+    }
+
+    public void deleteNote(long id) {
+        noteRepo.deleteNote(id);
+        todoRepo.deleteTodos(id);
     }
 }

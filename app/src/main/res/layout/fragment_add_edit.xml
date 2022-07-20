@@ -41,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"
-            android:minLines="10"
             android:maxLines="10"
+            android:minLines="10"
             android:textAppearance="@style/DefaultTextStyle" />
     </com.google.android.material.textfield.TextInputLayout>
 

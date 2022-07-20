@@ -21,7 +21,7 @@ public interface SingletonComponent {
     @Component.Factory
     interface Factory {
         SingletonComponent create(
-            @BindsInstance Application application
+            @BindsInstance Application app
         );
     }
 }

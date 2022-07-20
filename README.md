@@ -1,12 +1,13 @@
 # FlexingNotes
 FlexingNotes is an Android sample application created for learning purposes only.\
-This application provides ability to create notes and corresponding todos.
+This application provides an ability to create notes and corresponding todos.
 
 ## Screenshots
 ### XML view system (Material 3 widgets)
 <p float="left">
-  <img src="images/screen1.png" width=200/>
-  <img src="images/screen2.png" width=200/> 
+  <img src="assets/screen1.png" width=200/>
+  <img src="assets/screen2.png" width=200/> 
+  <img src="assets/screen3.png" width=200/>
 </p>
 
 
@@ -25,13 +26,13 @@ This application provides ability to create notes and corresponding todos.
   * **Livedata** as dataholder for UI layer.  
 * **[Dagger 2](https://dagger.dev/)** for dependency injection.
 
-## Architecture
-The application is divided into 3 layers:
-1. **Presentation** (.presentation): MainActivity, Fragments (*NotesFragment*, *AddEditFragment*) and ViewModels (*NotesViewModel*, *AddEditViewModel*) associated with them.
-2. **Domain** (.repository): LocalRepository (abstraction and implementation).
-3. **Data** (.data): Database, DAOs, Models for local data.
-
-For **dependency flow** there is .di package with corresponding components and modules. 
+## Key features
+#### i.e. what is unique among other samples?
+* **Java** as programming language
+* Dependent entity (**Todo** on **Note**) behaviour implementation
+* **Material You** widgets
+* Some widgets (**FloatingActionButton**, **Checkbox**) usage
+* Dynamic layout based on user text inputs
 
 ## License
 ```

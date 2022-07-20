@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import shvyn22.flexingnotes.data.local.AppDatabase;
 import shvyn22.flexingnotes.data.local.dao.NoteDao;
+import shvyn22.flexingnotes.data.local.dao.TodoDao;
 import shvyn22.flexingnotes.util.Constants;
 
 @Module
@@ -18,11 +19,11 @@ public class DatabaseModule {
     @Singleton
     @Provides
     public static AppDatabase provideDatabase(
-        Application application
+        Application app
     ) {
         return Room
             .databaseBuilder(
-                application,
+                app,
                 AppDatabase.class,
                 Constants.DATABASE_NAME
             )
@@ -36,5 +37,13 @@ public class DatabaseModule {
         AppDatabase db
     ) {
         return db.noteDao();
+    }
+
+    @Singleton
+    @Provides
+    public static TodoDao provideTodoDao(
+        AppDatabase db
+    ) {
+        return db.todoDao();
     }
 }

@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/padding_default">
+    android:layout_margin="@dimen/margin_default"
+    app:strokeWidth="0dp">
 
-    <CheckBox
-        android:id="@+id/cb_complete"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/et_todo"
-        app:layout_constraintBottom_toBottomOf="@id/et_todo"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="@dimen/padding_default">
 
-    <EditText
-        android:textAppearance="@style/DefaultTextStyle"
-        android:id="@+id/et_todo"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toEndOf="@id/cb_complete"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/text_hint_todo"
-        android:minLines="1"
-        android:importantForAutofill="no"
-        android:inputType="text" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_todo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textAppearance="@style/DefaultTextStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </FrameLayout>
+</com.google.android.material.card.MaterialCardView>

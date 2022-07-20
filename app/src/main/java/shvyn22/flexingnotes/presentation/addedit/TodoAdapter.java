@@ -1,21 +1,26 @@
 package shvyn22.flexingnotes.presentation.addedit;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
+import shvyn22.flexingnotes.R;
 import shvyn22.flexingnotes.data.local.model.Todo;
 import shvyn22.flexingnotes.databinding.ItemTodoBinding;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
+public class TodoAdapter extends ListAdapter<Todo, TodoAdapter.TodoViewHolder> {
 
-    private final ArrayList<Todo> todos = new ArrayList<>();
+    private final OnItemClickListener listener;
+
+    public TodoAdapter(OnItemClickListener listener) {
+        super(TodoAdapter.DIFF_UTIL);
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -29,31 +34,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
-        holder.bind(todos.get(position));
+        holder.bind(getItem(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return todos.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public void updateAndNotify(ArrayList<Todo> todos) {
-        this.todos.clear();
-        this.todos.addAll(todos);
-        notifyDataSetChanged();
-    }
-
-    static class TodoViewHolder extends RecyclerView.ViewHolder {
+    class TodoViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemTodoBinding binding;
 
@@ -63,27 +47,45 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         }
 
         public void bind(Todo item) {
-            binding.cbComplete.setChecked(item.isCompleted);
-            binding.etTodo.setText(item.text);
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item));
+            binding.tvTodo.setText(item.text);
 
-            binding.cbComplete.setOnCheckedChangeListener((compoundButton, isChecked)
-                -> item.isCompleted = isChecked
-            );
-
-            binding.etTodo.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    item.text = charSequence.toString();
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                }
-            });
+            if (item.isCompleted) {
+                binding.getRoot().setCardBackgroundColor(
+                    itemView.getResources()
+                        .getColor(R.color.magenta_400, itemView.getContext().getTheme())
+                );
+                binding.tvTodo.setPaintFlags(
+                    binding.tvTodo.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+                );
+            } else {
+                binding.getRoot().setCardBackgroundColor(
+                    itemView.getResources()
+                        .getColor(R.color.magenta_600, itemView.getContext().getTheme())
+                );
+                binding.tvTodo.setPaintFlags(
+                    binding.tvTodo.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG)
+                );
+            }
         }
+    }
+
+    public static final DiffUtil.ItemCallback<Todo> DIFF_UTIL = new DiffUtil.ItemCallback<Todo>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Todo oldItem, @NonNull Todo newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Todo oldItem, @NonNull Todo newItem) {
+            return oldItem.id == newItem.id
+                && oldItem.text.equals(newItem.text)
+                && oldItem.isCompleted == newItem.isCompleted
+                && oldItem.noteId == newItem.noteId;
+        }
+    };
+
+    interface OnItemClickListener {
+        void onItemClick(Todo todo);
     }
 }

@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import shvyn22.flexingnotes.R;
 import shvyn22.flexingnotes.data.local.model.Note;
-import shvyn22.flexingnotes.data.local.model.Todo;
 import shvyn22.flexingnotes.databinding.ItemNoteBinding;
 
 public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder> {
@@ -47,25 +45,10 @@ public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder>
         }
 
         public void bind(Note item) {
-            binding.getRoot().setOnClickListener(view -> listener.onItemClick(item.id));
+            binding.getRoot().setOnClickListener(v -> listener.onItemClick(item.id));
 
             binding.tvTitle.setText(item.title);
             binding.tvText.setText(item.text);
-
-            int total = item.todos.size();
-            if (total != 0) {
-                int completed = 0;
-                for (Todo todo : item.todos) {
-                    if (todo.isCompleted) completed++;
-                }
-                binding.tvTodosCount.setText(
-                    itemView.getContext().getString(
-                        R.string.text_todos_count,
-                        completed,
-                        total
-                    )
-                );
-            }
         }
     }
 
@@ -79,12 +62,11 @@ public class NotesAdapter extends ListAdapter<Note, NotesAdapter.NoteViewHolder>
         public boolean areContentsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
             return oldItem.id == newItem.id
                 && oldItem.title.equals(newItem.title)
-                && oldItem.text.equals(newItem.text)
-                && oldItem.todos.equals(newItem.todos);
+                && oldItem.text.equals(newItem.text);
         }
     };
 
     interface OnItemClickListener {
-        void onItemClick(int id);
+        void onItemClick(long id);
     }
 }

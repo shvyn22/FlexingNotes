@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,14 +20,17 @@ public interface NoteDao {
     Observable<List<Note>> getNotes();
 
     @Query("SELECT * FROM Note WHERE id = :id")
-    Single<Note> getNote(int id);
+    Single<Note> getNote(long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertNote(Note note);
+    Single<Long> insertNote(Note note);
+
+    @Update
+    Completable updateNote(Note note);
 
     @Query("DELETE FROM Note WHERE id = :id")
-    Completable deleteNote(int id);
+    Completable deleteNote(long id);
 
     @Query("DELETE FROM Note")
-    Completable deleteAll();
+    Completable deleteNotes();
 }

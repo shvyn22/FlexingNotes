@@ -22,6 +22,27 @@
         tools:layout="@layout/fragment_add_edit">
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="long" />
+        <action
+            android:id="@+id/action_addEditFragment_to_todoDialog"
+            app:destination="@id/todoDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/todoDialog"
+        android:name="shvyn22.flexingnotes.presentation.dialogs.TodoDialog"
+        android:label="dialog_todo"
+        tools:layout="@layout/dialog_todo" >
+        <argument
+            android:name="id"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <argument
+            android:name="text"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="isCompleted"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </dialog>
 </navigation>

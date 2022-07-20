@@ -1,4 +1,4 @@
-package shvyn22.flexingnotes.repository.local;
+package shvyn22.flexingnotes.repository.local.note;
 
 import java.util.List;
 
@@ -8,41 +8,51 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import shvyn22.flexingnotes.data.local.dao.NoteDao;
 import shvyn22.flexingnotes.data.local.model.Note;
 
-public class LocalRepositoryImpl implements LocalRepository<Note> {
+public class NoteRepositoryImpl implements NoteRepository {
 
     private final NoteDao dao;
 
-    public LocalRepositoryImpl(NoteDao dao) {
+    public NoteRepositoryImpl(
+        NoteDao dao
+    ) {
         this.dao = dao;
     }
 
     @Override
-    public Observable<List<Note>> getAll() {
+    public Observable<List<Note>> getNotes() {
         return dao.getNotes();
     }
 
     @Override
-    public Single<Note> getItem(int id) {
+    public Single<Note> getNote(long id) {
         return dao.getNote(id);
     }
 
     @Override
-    public void insert(Note item) {
-        dao.insertNote(item)
+    public Single<Long> insertNote(Note note) {
+        return dao.insertNote(note);
+    }
+
+    @Override
+    public void updateNote(Note note) {
+        dao
+            .updateNote(note)
             .subscribeOn(Schedulers.io())
             .subscribe();
     }
 
     @Override
-    public void delete(int id) {
-        dao.deleteNote(id)
+    public void deleteNote(long id) {
+        dao
+            .deleteNote(id)
             .subscribeOn(Schedulers.io())
             .subscribe();
     }
 
     @Override
-    public void deleteAll() {
-        dao.deleteAll()
+    public void deleteNotes() {
+        dao
+            .deleteNotes()
             .subscribeOn(Schedulers.io())
             .subscribe();
     }

@@ -4,8 +4,8 @@
     <string name="nav_notes">Notes</string>
     <string name="nav_details">Note details</string>
 
-    <string name="text_todos_count">%d/%d</string>
     <string name="text_add_todo">Add todo</string>
+    <string name="text_save_todo">Save</string>
     <string name="text_delete_all">Delete all</string>
 
     <string name="text_note_saved">Note was saved</string>

@@ -19,7 +19,6 @@ import javax.inject.Inject;
 
 import shvyn22.flexingnotes.NotesApp;
 import shvyn22.flexingnotes.R;
-import shvyn22.flexingnotes.data.local.model.Note;
 import shvyn22.flexingnotes.databinding.FragmentNotesBinding;
 import shvyn22.flexingnotes.presentation.util.MultiViewModelFactory;
 
@@ -72,28 +71,27 @@ public class NotesFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Note item = adapter.getCurrentList().get(viewHolder.getAdapterPosition());
-                viewModel.deleteNote(item.id);
+                viewModel.deleteNote(
+                    adapter.getCurrentList().get(viewHolder.getAdapterPosition()).id
+                );
             }
         }).attachToRecyclerView(binding.rvNotes);
 
-        binding.fabAdd.setOnClickListener(view -> navigateToAddEdit(-1));
+        binding.fabAdd.setOnClickListener(v -> navigateToAddEdit(-1));
 
         setHasOptionsMenu(true);
+    }
+
+    private void navigateToAddEdit(long id) {
+        Navigation
+            .findNavController(binding.getRoot())
+            .navigate(NotesFragmentDirections.actionNotesFragmentToAddEditFragment(id));
     }
 
     private void subscribeObservers() {
         viewModel.getNotes().observe(getViewLifecycleOwner(), notes -> {
             if (notes != null) adapter.submitList(notes);
         });
-    }
-
-    private void navigateToAddEdit(Integer id) {
-        Navigation
-            .findNavController(binding.getRoot())
-            .navigate(NotesFragmentDirections
-                .actionNotesFragmentToAddEditFragment(id)
-            );
     }
 
     @Override
@@ -106,7 +104,7 @@ public class NotesFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete)
-            viewModel.deleteAll();
+            viewModel.deleteNotes();
         return super.onOptionsItemSelected(item);
     }
 
